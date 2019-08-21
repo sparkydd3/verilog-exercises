@@ -1,0 +1,11 @@
+// sign1_i | exp1_i | frac1_i | sign2_i | exp2_i | frac2_i | gtr_o
+1_0011_10000000_0_0011_10000000_0		// negative < positive
+0_0011_10000000_1_0011_10000000_1		// positive > negative
+1_0011_10000000_1_0011_10000001_1		// both negative, same exponent
+1_0100_10000000_1_0011_11000000_0		// both negative, different exponents
+1_0100_11000000_1_0100_11000000_0		// both negative, equal
+0_0011_10000000_0_0011_10000001_0		// both positive, same exponent
+0_0100_10000000_0_0011_11000000_1		// both positive, different exponents
+0_0100_11000000_0_0100_11000000_0		// both positive, equal
+0_0000_00000000_1_0000_00000000_1		// comparison between +0 and -0
+1_0000_00000000_0_0000_00000000_0		// comparison between -0 and +0

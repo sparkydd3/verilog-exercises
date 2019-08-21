@@ -1,0 +1,19 @@
+// bcd_i | inc_o | overflow_o | invalid_o
+
+// test invalid number check
+00F_000_0_1
+0F0_0F1_0_1
+F00_F01_0_1
+
+// test overflow
+999_000_1_0
+
+// test one-ten propagation
+019_020_0_0
+
+// test ten-hundred propagation
+299_300_0_0
+
+// random numbers
+157_158_0_0
+696_697_0_0
