@@ -1,0 +1,32 @@
+# quartus project files
+quartus/*.qpf
+quartus/*.qsf
+quartus/*.pin
+quartus/*.tcl
+quartus/*.qws
+quartus/*.jdi
+
+# quartus report files
+quartus/*.rpt
+quartus/*.summary
+quartus/*.smsg
+
+# quartus databases
+quartus/db
+quartus/incremental_db
+
+# qsys synthesis
+qsys/*/
+qsys/*.html
+qsys/*.cmp
+qsys/*.sopcinfo
+qsys/*.rpt
+
+# programming files
+quartus/*.sof
+quartus/*.pof
+
+# eclipse files
+.cproject
+.project
+.metadata
