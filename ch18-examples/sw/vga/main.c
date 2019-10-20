@@ -58,9 +58,9 @@ int vga_move_mouse_ptr(alt_u32 vga_base, alt_u32 ps2_base,
 	if (*xnew < 0)
 		*xnew = 0;
 
-	*ynew = yold + mv->ymov;
-	if (*ynew > (479 - mouse->width))
-		*ynew = 479 - mouse->width;
+	*ynew = yold - mv->ymov;
+	if (*ynew > (479 - mouse->height))
+		*ynew = 479 - mouse->height;
 	if (*ynew < 0)
 		*ynew = 0;
 

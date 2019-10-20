@@ -272,4 +272,3 @@ set_location_assignment PIN_AA19 -to FL_DQ[7]
 set_location_assignment PIN_AA15 -to FL_OE_N
 set_location_assignment PIN_W14 -to FL_RST_N
 set_location_assignment PIN_Y14 -to FL_WE_N
-

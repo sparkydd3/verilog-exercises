@@ -1,8 +1,13 @@
 module vga_sync
 	(
-		input wire clk, reset,
-		output wire hsync_i, vsync_i, video_on_i, p_tick,
-		output wire [9:0] pixel_x, pixel_y
+		output wire [9:0] pixel_x_o, 
+		output wire [9:0] pixel_y_o,
+		output wire hsync_o, 
+		output wire vsync_o, 
+		output wire video_on_o, 
+		output wire p_tick_o,
+		input wire clk, 
+		input wire reset
 	);
 
 	// constant declaration
@@ -18,7 +23,7 @@ module vga_sync
 
 	// mod-2 counter
 	reg mod2_reg;
-	wire mod2_next;
+
 	// sync counters
 	reg [9:0] h_count_reg, h_count_next;
 	reg [9:0] v_count_reg, v_count_next;
@@ -36,13 +41,12 @@ module vga_sync
 			end
 		else
 			begin
-				mod2_reg <= mod2_next;
+				mod2_reg <= ~mod2_reg;
 				v_count_reg <= v_count_next;
 				h_count_reg <= h_count_next;
 			end
 
 	// mod-2 circuit to generate 25 MHz enable tick
-	assign mod2_next = ~mod2_reg;
 	assign pixel_tick = mod2_reg;
 
 	// status signals
@@ -72,15 +76,15 @@ module vga_sync
 			v_count_next = v_count_reg;
 	
 	// h_sync
-	assign hsync_i = h_count_reg < (HD + HF) || h_count_reg > (HD + HF + HR - 1);
+	assign hsync_o = h_count_reg < (HD + HF) || h_count_reg > (HD + HF + HR - 1);
 	// v_sync
-	assign vsync_i = v_count_reg < (VD + VF) || v_count_reg > (VD + VF + VR - 1);
+	assign vsync_o = v_count_reg < (VD + VF) || v_count_reg > (VD + VF + VR - 1);
 
 	// video on/off
-	assign video_on_i = (h_count_reg < HD) && (v_count_reg < VD);
+	assign video_on_o = (h_count_reg < HD) && (v_count_reg < VD);
 
 	// output
-	assign pixel_x = h_count_reg;
-	assign pixel_y = v_count_reg;
-	assign p_tick = pixel_tick;
+	assign pixel_x_o = h_count_reg;
+	assign pixel_y_o = v_count_reg;
+	assign p_tick_o = pixel_tick;
 endmodule

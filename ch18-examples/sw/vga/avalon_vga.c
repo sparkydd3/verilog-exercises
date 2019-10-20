@@ -147,7 +147,7 @@ void vga_wr_bit_str(alt_u32 vga_base, int x, int y, char *s, int color, int zoom
 		else {
 			vga_wr_bit_ch(vga_base, cx, cy, *s, color, zoom);
 			s++;
-			cx = cx * 8 * zoom;
+			cx = cx + 8 * zoom;
 		}
 	}
 }

@@ -3,6 +3,7 @@ QSYS_DIR = qsys
 SW_DIR = sw
 
 export HARDWARE = nios
+#export HARDWARE = nios_vga_buf
 
 all: build 
 

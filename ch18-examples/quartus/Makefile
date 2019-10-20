@@ -5,7 +5,7 @@ TOP = $(addsuffix _top,$(HARDWARE))
 
 SRCS = $(wildcard ../hw/*.v)
 SRCS += $(wildcard ../brd/*.v)
-SDCS = $(wildcard ../brd/*.sdc)
+SDCS = $(wildcard ../brd/$(TOP).sdc)
 
 QIP = ../qsys/$(HARDWARE)/synthesis/$(HARDWARE).qip
 
@@ -31,7 +31,7 @@ program: $(HARDWARE).sof
 clean:
 	rm -rf *.tcl *.pof *.sof *.pin *.qsf *.qpf
 	rm -rf *.rpt *.summary *.done *.smsg *.cdf *.jdi *.qws *.stp
-	rm -rf db incremental_db
+	rm -rf db incremental_db 
 
 # Executable Configuration
 
@@ -57,7 +57,7 @@ $(HARDWARE).tcl:
 $(HARDWARE).qsf: $(HARDWARE).tcl
 	quartus_sh.exe -t $(HARDWARE).tcl
 
-$(HARDWARE).map.rpt: $(SRCS) $(HARDWARE).qsf
+$(HARDWARE).map.rpt: $(SDCS) $(SRCS) $(HARDWARE).qsf
 	quartus_sh.exe --prepare -t $(TOP) $(HARDWARE)
 	quartus_map.exe $(MAP_ARGS) $(HARDWARE)
 

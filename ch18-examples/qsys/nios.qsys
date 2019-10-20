@@ -60,6 +60,14 @@
          type = "String";
       }
    }
+   element vram.cpu_vram
+   {
+      datum baseAddress
+      {
+         value = "16777216";
+         type = "String";
+      }
+   }
    element cpu.jtag_debug_module
    {
       datum baseAddress
@@ -116,14 +124,6 @@
          type = "String";
       }
    }
-   element switch.s1
-   {
-      datum baseAddress
-      {
-         value = "20975760";
-         type = "String";
-      }
-   }
    element led.s1
    {
       datum baseAddress
@@ -140,11 +140,11 @@
          type = "String";
       }
    }
-   element sseg.s1
+   element btn.s1
    {
       datum baseAddress
       {
-         value = "20975712";
+         value = "20975744";
          type = "String";
       }
    }
@@ -156,11 +156,19 @@
          type = "String";
       }
    }
-   element btn.s1
+   element switch.s1
    {
       datum baseAddress
       {
-         value = "20975744";
+         value = "20975760";
+         type = "String";
+      }
+   }
+   element sseg.s1
+   {
+      datum baseAddress
+      {
+         value = "20975712";
          type = "String";
       }
    }
@@ -212,14 +220,6 @@
          type = "int";
       }
    }
-   element vram.vga
-   {
-      datum baseAddress
-      {
-         value = "16777216";
-         type = "String";
-      }
-   }
    element vram
    {
       datum _sortIndex
@@ -243,7 +243,7 @@
  <parameter name="projectName" value="" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1571407135513" />
+ <parameter name="timeStamp" value="1571716576290" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk.clk_in" type="clock" dir="end" />
@@ -271,6 +271,8 @@
  <interface name="sdram_wire" internal="sdram.wire" type="conduit" dir="end" />
  <interface name="sdram_clk" internal="pll.c1" type="clock" dir="start" />
  <interface name="ps2_ps2_phys" internal="ps2.ps2_phys" type="conduit" dir="end" />
+ <interface name="vram_vga_ctrl" internal="vram.vga_ctrl" />
+ <interface name="vram_sram_ctrl" internal="vram.sram_ctrl" />
  <interface
    name="vram_ctrl_vga"
    internal="vram.ctrl_vga"
@@ -389,7 +391,7 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='sdram.s1' start='0x800000' end='0x1000000' /><slave name='cpu.jtag_debug_module' start='0x1400800' end='0x1401000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='sdram.s1' start='0x800000' end='0x1000000' /><slave name='vram.vga' start='0x1000000' end='0x1400000' /><slave name='cpu.jtag_debug_module' start='0x1400800' end='0x1401000' /><slave name='usr_timer.s1' start='0x1401000' end='0x1401020' /><slave name='sys_timer.s1' start='0x1401020' end='0x1401040' /><slave name='ps2.cpu_ps2' start='0x1401040' end='0x1401050' /><slave name='pll.pll_slave' start='0x1401050' end='0x1401060' /><slave name='sseg.s1' start='0x1401060' end='0x1401070' /><slave name='led.s1' start='0x1401070' end='0x1401080' /><slave name='btn.s1' start='0x1401080' end='0x1401090' /><slave name='switch.s1' start='0x1401090' end='0x14010A0' /><slave name='jtag_uart.avalon_jtag_slave' start='0x14010A0' end='0x14010A8' /><slave name='sysid.control_slave' start='0x14010A8' end='0x14010B0' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='sdram.s1' start='0x800000' end='0x1000000' /><slave name='vram.cpu_vram' start='0x1000000' end='0x1400000' /><slave name='cpu.jtag_debug_module' start='0x1400800' end='0x1401000' /><slave name='usr_timer.s1' start='0x1401000' end='0x1401020' /><slave name='sys_timer.s1' start='0x1401020' end='0x1401040' /><slave name='ps2.cpu_ps2' start='0x1401040' end='0x1401050' /><slave name='pll.pll_slave' start='0x1401050' end='0x1401060' /><slave name='sseg.s1' start='0x1401060' end='0x1401070' /><slave name='led.s1' start='0x1401070' end='0x1401080' /><slave name='btn.s1' start='0x1401080' end='0x1401090' /><slave name='switch.s1' start='0x1401090' end='0x14010A0' /><slave name='jtag_uart.avalon_jtag_slave' start='0x14010A0' end='0x14010A8' /><slave name='sysid.control_slave' start='0x14010A8' end='0x14010B0' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV GX" />
   <parameter name="internalIrqMaskSystemInfo" value="15" />
@@ -539,9 +541,6 @@
   <parameter name="registerDataIn" value="true" />
   <parameter name="clockRate" value="50000000" />
   <parameter name="componentName" value="$${FILENAME}_sdram" />
- </module>
- <module kind="avalon_vga" version="1.0" enabled="1" name="vram">
-  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
  </module>
  <module
    kind="altera_avalon_timer"
@@ -729,6 +728,9 @@
   <parameter name="W_SIZE" value="2" />
   <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
  </module>
+ <module kind="avalon_vga" version="1.0" enabled="1" name="vram">
+  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
+ </module>
  <connection
    kind="avalon"
    version="13.0"
@@ -879,17 +881,6 @@
   <parameter name="baseAddress" value="0x00800000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
- <connection kind="reset" version="13.0" start="clk.clk_reset" end="vram.reset" />
- <connection kind="avalon" version="13.0" start="cpu.data_master" end="vram.vga">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x01000000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="reset"
-   version="13.0"
-   start="cpu.jtag_debug_module_reset"
-   end="vram.reset" />
  <connection
    kind="reset"
    version="13.0"
@@ -932,7 +923,6 @@
  <connection kind="clock" version="13.0" start="pll.c0" end="sys_timer.clk" />
  <connection kind="clock" version="13.0" start="pll.c0" end="usr_timer.clk" />
  <connection kind="clock" version="13.0" start="pll.c0" end="jtag_uart.clk" />
- <connection kind="clock" version="13.0" start="pll.c0" end="vram.clock" />
  <connection kind="clock" version="13.0" start="pll.c0" end="switch.clk" />
  <connection kind="clock" version="13.0" start="pll.c0" end="btn.clk" />
  <connection kind="clock" version="13.0" start="pll.c0" end="led.clk" />
@@ -954,6 +944,22 @@
    version="13.0"
    start="cpu.jtag_debug_module_reset"
    end="ps2.reset" />
+ <connection kind="clock" version="13.0" start="pll.c0" end="vram.clock" />
+ <connection kind="reset" version="13.0" start="clk.clk_reset" end="vram.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="cpu.jtag_debug_module_reset"
+   end="vram.reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="cpu.data_master"
+   end="vram.cpu_vram">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x01000000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>

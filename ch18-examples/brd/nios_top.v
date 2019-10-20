@@ -1,6 +1,5 @@
 module nios_top
 	(
-		input wire CLOCK_50,
 		input wire [9:0] SW,
 		input wire [3:0] KEY,
 		output wire [7:0] LEDG,
@@ -8,21 +7,27 @@ module nios_top
 		output wire [6:0] HEX3, HEX2, HEX1, HEX0,
 
 		output wire [17:0] SRAM_ADDR,
-		output wire SRAM_CE_N, SRAM_OE_N, SRAM_WE_N,
-		output wire SRAM_LB_N, SRAM_UB_N,
+		output wire SRAM_UB_N, SRAM_LB_N, 
+		output wire SRAM_CE_N, 
+		output wire SRAM_OE_N, 
+		output wire SRAM_WE_N,
 		inout wire [15:0] SRAM_DQ,
 
 		output wire [11:0] DRAM_ADDR,
-		inout wire [15:0] DRAM_DQ,
 		output wire DRAM_BA_1, DRAM_BA_0,
 		output wire DRAM_UDQM, DRAM_LDQM,
-		output wire DRAM_RAS_N, DRAM_CAS_N, DRAM_WE_N, DRAM_CS_N,
-		output wire DRAM_CKE, DRAM_CLK,
+		output wire DRAM_CS_N,
+		output wire DRAM_RAS_N, DRAM_CAS_N, 
+		output wire DRAM_WE_N, 
+		output wire DRAM_CLK, DRAM_CKE, 
+		inout wire [15:0] DRAM_DQ,
 
 		output wire [3:0] VGA_R, VGA_G, VGA_B,
 		output wire VGA_HS, VGA_VS,
 
-		inout PS2_CLK, PS2_DAT
+		inout PS2_CLK, PS2_DAT,
+
+		input wire CLOCK_50
 	);
 
 	wire [18:0] led;
@@ -30,7 +35,6 @@ module nios_top
 
 	nios cpu (
         .clk_clk(CLOCK_50),
-		.sdram_clk_clk(DRAM_CLK),
         .reset_reset_n(KEY[0]),
 
         .switch_external_connection_export(SW),
@@ -42,26 +46,27 @@ module nios_top
         .ps2_ps2_phys_ps2c(PS2_CLK),
 
 		.sdram_wire_addr(DRAM_ADDR),
-		.sdram_wire_dq(DRAM_DQ),
 		.sdram_wire_ba({DRAM_BA_1, DRAM_BA_0}),
 		.sdram_wire_dqm({DRAM_UDQM, DRAM_LDQM}),
-		.sdram_wire_cas_n(DRAM_CAS_N),
-		.sdram_wire_ras_n(DRAM_RAS_N),
 		.sdram_wire_cs_n(DRAM_CS_N),
+		.sdram_wire_ras_n(DRAM_RAS_N),
+		.sdram_wire_cas_n(DRAM_CAS_N),
 		.sdram_wire_we_n(DRAM_WE_N),
+		.sdram_clk_clk(DRAM_CLK),
 		.sdram_wire_cke(DRAM_CKE),
+		.sdram_wire_dq(DRAM_DQ),
 
-		.vram_ctrl_sram_addr(SRAM_ADDR),
-		.vram_ctrl_sram_dq(SRAM_DQ),
-		.vram_ctrl_sram_ce_n(SRAM_CE_N),
-		.vram_ctrl_sram_oe_n(SRAM_OE_N),
-		.vram_ctrl_sram_we_n(SRAM_WE_N),
-		.vram_ctrl_sram_lb_n(SRAM_LB_N),
-		.vram_ctrl_sram_ub_n(SRAM_UB_N),
+		.vram_ctrl_sram_addr_o(SRAM_ADDR),
+		.vram_ctrl_sram_ub_n_o(SRAM_UB_N),
+		.vram_ctrl_sram_lb_n_o(SRAM_LB_N),
+		.vram_ctrl_sram_ce_n_o(SRAM_CE_N),
+		.vram_ctrl_sram_oe_n_o(SRAM_OE_N),
+		.vram_ctrl_sram_we_n_o(SRAM_WE_N),
+		.vram_ctrl_sram_dq_io(SRAM_DQ),
 		
-		.vram_ctrl_vga_rgb({VGA_R, VGA_G, VGA_B}),
-		.vram_ctrl_vga_hsync(VGA_HS),
-		.vram_ctrl_vga_vsync(VGA_VS)
+		.vram_ctrl_vga_rgb_o({VGA_R, VGA_G, VGA_B}),
+		.vram_ctrl_vga_hsync_o(VGA_HS),
+		.vram_ctrl_vga_vsync_o(VGA_VS)
     );
 
 	assign HEX3 = sseg[30:24];
