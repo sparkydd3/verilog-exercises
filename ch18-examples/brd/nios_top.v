@@ -34,9 +34,6 @@ module nios_top
 	wire [31:0] sseg;
 
 	nios cpu (
-        .clk_clk(CLOCK_50),
-        .reset_reset_n(KEY[0]),
-
         .switch_external_connection_export(SW),
         .btn_external_connection_export({KEY[3:1], 1'b1}),
         .led_external_connection_export(led),
@@ -56,17 +53,20 @@ module nios_top
 		.sdram_wire_cke(DRAM_CKE),
 		.sdram_wire_dq(DRAM_DQ),
 
-		.vram_ctrl_sram_addr_o(SRAM_ADDR),
-		.vram_ctrl_sram_ub_n_o(SRAM_UB_N),
-		.vram_ctrl_sram_lb_n_o(SRAM_LB_N),
-		.vram_ctrl_sram_ce_n_o(SRAM_CE_N),
-		.vram_ctrl_sram_oe_n_o(SRAM_OE_N),
-		.vram_ctrl_sram_we_n_o(SRAM_WE_N),
-		.vram_ctrl_sram_dq_io(SRAM_DQ),
+		.vram_ctrl_sram_o_sram_addr(SRAM_ADDR),
+		.vram_ctrl_sram_o_sram_ub_n(SRAM_UB_N),
+		.vram_ctrl_sram_o_sram_lb_n(SRAM_LB_N),
+		.vram_ctrl_sram_o_sram_ce_n(SRAM_CE_N),
+		.vram_ctrl_sram_o_sram_oe_n(SRAM_OE_N),
+		.vram_ctrl_sram_o_sram_we_n(SRAM_WE_N),
+		.vram_ctrl_sram_io_sram_dq(SRAM_DQ),
 		
-		.vram_ctrl_vga_rgb_o({VGA_R, VGA_G, VGA_B}),
-		.vram_ctrl_vga_hsync_o(VGA_HS),
-		.vram_ctrl_vga_vsync_o(VGA_VS)
+		.vram_ctrl_vga_rgb({VGA_R, VGA_G, VGA_B}),
+		.vram_ctrl_vga_hsync(VGA_HS),
+		.vram_ctrl_vga_vsync(VGA_VS),
+
+        .clk_clk(CLOCK_50),
+        .reset_reset_n(KEY[0])
     );
 
 	assign HEX3 = sseg[30:24];

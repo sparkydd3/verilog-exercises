@@ -1,13 +1,13 @@
 module vga_sync
 	(
-		output wire [9:0] pixel_x_o, 
-		output wire [9:0] pixel_y_o,
-		output wire hsync_o, 
-		output wire vsync_o, 
-		output wire video_on_o, 
-		output wire p_tick_o,
-		input wire clk, 
-		input wire reset
+		output wire [9:0] o_pixel_x, 
+		output wire [9:0] o_pixel_y,
+		output wire o_hsync, 
+		output wire o_vsync, 
+		output wire o_video_on, 
+		output wire o_p_tick,
+		input wire i_clk, 
+		input wire i_reset
 	);
 
 	// constant declaration
@@ -32,8 +32,8 @@ module vga_sync
 
 	// body
 	// registers
-	always @(posedge clk, posedge reset)
-		if (reset)
+	always @(posedge i_clk, posedge i_reset)
+		if (i_reset)
 			begin
 				mod2_reg <= 1'b0;
 				v_count_reg <= 0;
@@ -76,15 +76,15 @@ module vga_sync
 			v_count_next = v_count_reg;
 	
 	// h_sync
-	assign hsync_o = h_count_reg < (HD + HF) || h_count_reg > (HD + HF + HR - 1);
+	assign o_hsync = h_count_reg < (HD + HF) || h_count_reg > (HD + HF + HR - 1);
 	// v_sync
-	assign vsync_o = v_count_reg < (VD + VF) || v_count_reg > (VD + VF + VR - 1);
+	assign o_vsync = v_count_reg < (VD + VF) || v_count_reg > (VD + VF + VR - 1);
 
 	// video on/off
-	assign video_on_o = (h_count_reg < HD) && (v_count_reg < VD);
+	assign o_video_on = (h_count_reg < HD) && (v_count_reg < VD);
 
 	// output
-	assign pixel_x_o = h_count_reg;
-	assign pixel_y_o = v_count_reg;
-	assign p_tick_o = pixel_tick;
+	assign o_pixel_x = h_count_reg;
+	assign o_pixel_y = v_count_reg;
+	assign o_p_tick = pixel_tick;
 endmodule

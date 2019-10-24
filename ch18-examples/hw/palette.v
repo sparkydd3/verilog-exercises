@@ -1,14 +1,14 @@
 module palette
 	(
-		output wire [11:0] color_o,
-		input wire [7:0] color_i
+		output wire [11:0] o_color,
+		input wire [7:0] i_color
 	);
 
 	// body
 	// 3-bit read to 4-bit red, 3-bit green to 4-bit green
 	// 2-bit blue to 4-bit blue
-	assign color_o =
-		{color_i[7:5], color_i[5],
-		 color_i[4:2], color_i[2],
-		 color_i[1:0], color_i[0], color_i[0]};
+	assign o_color =
+		{i_color[7:5], i_color[5],
+		 i_color[4:2], i_color[2],
+		 i_color[1:0], i_color[0], i_color[0]};
 endmodule

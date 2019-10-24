@@ -116,30 +116,6 @@
          type = "int";
       }
    }
-   element usr_timer.s1
-   {
-      datum baseAddress
-      {
-         value = "20975616";
-         type = "String";
-      }
-   }
-   element led.s1
-   {
-      datum baseAddress
-      {
-         value = "20975728";
-         type = "String";
-      }
-   }
-   element sdram.s1
-   {
-      datum baseAddress
-      {
-         value = "8388608";
-         type = "String";
-      }
-   }
    element btn.s1
    {
       datum baseAddress
@@ -156,11 +132,19 @@
          type = "String";
       }
    }
-   element switch.s1
+   element sdram.s1
    {
       datum baseAddress
       {
-         value = "20975760";
+         value = "8388608";
+         type = "String";
+      }
+   }
+   element led.s1
+   {
+      datum baseAddress
+      {
+         value = "20975728";
          type = "String";
       }
    }
@@ -169,6 +153,22 @@
       datum baseAddress
       {
          value = "20975712";
+         type = "String";
+      }
+   }
+   element usr_timer.s1
+   {
+      datum baseAddress
+      {
+         value = "20975616";
+         type = "String";
+      }
+   }
+   element switch.s1
+   {
+      datum baseAddress
+      {
+         value = "20975760";
          type = "String";
       }
    }
@@ -243,7 +243,7 @@
  <parameter name="projectName" value="" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1571716576290" />
+ <parameter name="timeStamp" value="1571939155565" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk.clk_in" type="clock" dir="end" />
@@ -271,16 +271,14 @@
  <interface name="sdram_wire" internal="sdram.wire" type="conduit" dir="end" />
  <interface name="sdram_clk" internal="pll.c1" type="clock" dir="start" />
  <interface name="ps2_ps2_phys" internal="ps2.ps2_phys" type="conduit" dir="end" />
- <interface name="vram_vga_ctrl" internal="vram.vga_ctrl" />
- <interface name="vram_sram_ctrl" internal="vram.sram_ctrl" />
- <interface
-   name="vram_ctrl_vga"
-   internal="vram.ctrl_vga"
-   type="conduit"
-   dir="end" />
  <interface
    name="vram_ctrl_sram"
    internal="vram.ctrl_sram"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="vram_ctrl_vga"
+   internal="vram.ctrl_vga"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk">
@@ -728,9 +726,7 @@
   <parameter name="W_SIZE" value="2" />
   <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
  </module>
- <module kind="avalon_vga" version="1.0" enabled="1" name="vram">
-  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
- </module>
+ <module kind="avalon_vga" version="1.0" enabled="1" name="vram" />
  <connection
    kind="avalon"
    version="13.0"

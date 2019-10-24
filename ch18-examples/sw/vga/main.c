@@ -242,7 +242,7 @@ void plot_swap(alt_u32 vga_base)
 	x1 = 80 * x1;
 	x2 = 80 * x2;
 
-	for (y = 9; y < 480; y++)
+	for (y = 0; y < 480; y++)
 		for (x = 0; x < 80; x++)
 			buf[80 * y + x] = vga_rd_pix(vga_base, x + x1, y);
 	
