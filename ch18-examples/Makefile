@@ -2,8 +2,8 @@ QUAR_DIR = quartus
 QSYS_DIR = qsys
 SW_DIR = sw
 
-export HARDWARE = nios
-#export HARDWARE = nios_vga_buf
+#export HARDWARE = nios
+export HARDWARE = nios_buffered
 
 all: build 
 

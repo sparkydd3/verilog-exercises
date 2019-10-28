@@ -26,9 +26,9 @@ module ps2_tx_rx_buf
 		 .rx_done_tick(rx_done_tick), .dout(rx_data));
 	// insantiate FIFO buffer
 	fifo #(.DATA_WIDTH(8), .ADDR_WIDTH(W_SIZE)) fifo_unit
-		(.clk(clk), .reset(reset), .rd(rd_ps2_packet),
-		 .wr(rx_done_tick), .w_data(rx_data), .empty(ps2_rx_buf_empty),
-		 .full(), .r_data(ps2_rx_data));
+		(.i_clk(clk), .i_reset(reset), .i_rd(rd_ps2_packet),
+		 .i_wr(rx_done_tick), .i_w_data(rx_data), .o_empty(ps2_rx_buf_empty),
+		 .o_full(), .o_r_data(ps2_rx_data));
 	// output
 	assign ps2_tx_idle = tx_idle;
 endmodule

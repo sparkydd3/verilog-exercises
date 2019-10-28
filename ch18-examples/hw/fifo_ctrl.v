@@ -3,11 +3,16 @@ module fifo_ctrl
 		parameter ADDR_WIDTH = 4	// number of address bits
 	)
 	(
-		input wire clk, reset,
-		input wire rd, wr,
-		output wire empty, full,
-		output wire [ADDR_WIDTH-1:0] w_addr,
-		output wire [ADDR_WIDTH-1:0] r_addr, r_addr_next
+		output wire [ADDR_WIDTH-1:0] o_r_addr,
+		output wire [ADDR_WIDTH-1:0] o_r_addr_next,
+		output wire [ADDR_WIDTH-1:0] o_w_addr,
+		output wire o_empty, 
+		output wire o_full,
+		input wire i_rd, 
+		input wire i_wr,
+
+		input wire i_clk, 
+		input wire i_reset
 	);
 
 	// signal declaration
@@ -17,9 +22,9 @@ module fifo_ctrl
 
 	// body
 	// fifo control logic
-	// registers for status and read and write pointers
-	always @(posedge clk, posedge reset)
-		if (reset)
+	// registers for status and read and i_write pointers
+	always @(posedge i_clk, posedge i_reset)
+		if (i_reset)
 			begin
 				w_ptr_reg <= 0;
 				r_ptr_reg <= 0;
@@ -34,19 +39,21 @@ module fifo_ctrl
 				empty_reg <= empty_next;
 			end
 
-	// next-state logic for read and write pointers
+	// next-state logic for read and i_write pointers
 	always @*
 	begin
 		// successive pointer values
 		w_ptr_succ = w_ptr_reg + 1;
 		r_ptr_succ = r_ptr_reg + 1;
+
 		// default: keep old values
 		w_ptr_next = w_ptr_reg;
 		r_ptr_next = r_ptr_reg;
 		full_next = full_reg;
 		empty_next = empty_reg;
-		case ({wr, rd})
-			// 2'b00: no op
+
+		case ({i_wr, i_rd})
+			//2'b00: no op
 			2'b01:	// read
 				if (~empty_reg)	// not empty
 					begin
@@ -72,9 +79,9 @@ module fifo_ctrl
 	end
 	
 	// output
-	assign w_addr = w_ptr_reg;
-	assign r_addr = r_ptr_reg;
-	assign r_addr_next = r_ptr_next;
-	assign full = full_reg;
-	assign empty = empty_reg;
+	assign o_w_addr = w_ptr_reg;
+	assign o_r_addr = r_ptr_reg;
+	assign o_r_addr_next = r_ptr_next;
+	assign o_full = full_reg;
+	assign o_empty = empty_reg;
 endmodule

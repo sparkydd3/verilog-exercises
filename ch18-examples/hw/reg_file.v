@@ -4,11 +4,14 @@ module reg_file
 		          ADDR_WIDTH = 4
 	)
 	(
-		input wire clk,
-		input wire wr_en,
-		input wire [ADDR_WIDTH-1:0] w_addr, r_addr,
-		input wire [DATA_WIDTH-1:0] w_data,
-		output wire [DATA_WIDTH-1:0] r_data
+		output wire [DATA_WIDTH-1:0] o_r_data,
+
+		input wire [ADDR_WIDTH-1:0] i_r_addr,
+		input wire [ADDR_WIDTH-1:0] i_w_addr, 
+		input wire [DATA_WIDTH-1:0] i_w_data,
+		input wire i_wr_en,
+
+		input wire i_clk
 	);
 
 	// signal declaration
@@ -16,9 +19,10 @@ module reg_file
 
 	// body
 	// write operation
-	always @(posedge clk)
-		if (wr_en)
-			array_reg[w_addr] <= w_data;
+	always @(posedge i_clk)
+		if (i_wr_en)
+			array_reg[i_w_addr] <= i_w_data;
+
 	// read operation
-	assign r_data =  array_reg[r_addr];
+	assign o_r_data =  array_reg[i_r_addr];
 endmodule
